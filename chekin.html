@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Passagens Aéreas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>    
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="logica.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<style>
+    
+</style>
+<body>
+   <header>
+        <div class="name">
+               <img id="face" src="img/Hawai.png" alt="">
+               <a href="ind.html">InterMiles</a>
+                <img id="flower" src="img/flor.png" alt=""> 
+        </div>
+        <div class="head-bar">
+            <a href="chekin.html">Chekin</a>
+            
+            <button type="button" id="biri" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+              Entre
+              <i class="bi bi-person-circle"></i>
+            </button>
+            <button id="nomeUsuarioDiv"style="display: none;" type="button" id="biri" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScroll" aria-controls="offcanvasScroll"></button>
+            
+            <button class="carrinho" type="button" id="botaoBuscar" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                Pacotes
+                <i class="bi bi-cart-fill"></i>
+            </button>
+            <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+                <span class="visually-hidden">produtos no carrinho</span>
+              </span>
+        </div>
+    </header>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+          <p id="cad" style="display: none;">Cadastro</p>
+          <p id="log">Login</p>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <form id="loginForm">
+            <input type="email" id="loginEmail" required placeholder="Email" autocomplete="off"><br>
+            <input type="password" id="loginSenha" required placeholder="Senha"><br>
+        <button type="submit">Login</button>
+        <p>Ainda não possui cadastro?</p>
+        <a href="" onclick="event.preventDefault(); view()">Cadastrar</a>
+    </form>
+        <form id="cadastroForm" style="display: none;">
+                <input type="nome" id="cadastroNome" required placeholder="Nome" autocomplete="off"><br>
+                <input type="cpf" id="cadastroCPF" required placeholder="CPF" autocomplete="off"><br>
+                <input type="tel" id="cadastroTelefone" required Idade placeholder="Telefone" autocomplete="off"><br>
+                <input type="email" id="cadastroEmail" required placeholder="Email" autocomplete="off"><br>
+                <input type="password" id="cadastroSenha" required placeholder="Senha"><br>
+            <button type="submit">Cadastrar</button>
+            <br>
+            <a href="" onclick="event.preventDefault(); Review()" class="returna">Voltar</a>
+        </form>
+        </div>
+        <div class="offcanvas-final">
+          <p id="ola" style="display: none;">Torne-se um Cliente</p>
+          <p id="vindo">Bem vindo(a) de Volta</p>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScroll" aria-labelledby="offcanvasScrollingLabel">
+      <div class="offcanvas-header">
+          <p id="cad">Meu perfil</p>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body" id="bodyCanva">
+          <figure>
+              <img src="img/person.png" alt="">
+          </figure>
+          <div class="dados">
+              <div class="mae1">
+                  <label for="nome">Nome:</label>
+                  <div class="espaco">
+                      <p id="nomeBord"></p>
+                  </div>
+  
+                  <label for="email">Email:</label>
+                  <div class="espaco">
+                      <p id="emailBord"></p>
+                  </div>
+  
+                  <label for="telefone">Telefone:</label>
+                  <div class="espaco">
+                      <p id="telefoneBord"></p>
+                  </div>
+              </div>
+              <div class="mae2">
+                  <label for="cpf">CPF:</label>
+                  <div class="espaco">
+                      <p id="cpfBord"></p>
+                  </div>
+  
+                  <label for="senha">Senha:</label>
+                  <div class="espaco">
+                      <p id="senhaBord" type="password"></p> 
+                  </div>
+              </div>
+          </div>
+      </div>
+      <a href="" onclick="sair()" id="saiAgr">Finalizar Sessão</a>
+      <div class="offcanvas-final"></div>
+  </div>
+  </div>
+  
+  <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+    <div class="offcanvas-header">
+        <p id="cad">Minhas Compras</p>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div id="front">
+        <div id="reservasContainer"></div>
+      </div>
+    </div>
+    <div class="limpa">
+        <a href="#" class="item" onclick="limpa()">
+            Lipar Carrinho
+            <i class="bi bi-trash3-fill"></i>
+        </a>
+      </div>
+    <div class="offcanvas-final">
+        <a href="chekin.html">Adcionar produtos ao carrinho</a>
+      </div>
+  </div>
+
+    <section class="mapService">
+        <h1>Comprar Passagens Aéreas</h1>
+        <div class="progres">
+            <img src="img/airPlanner.png" alt="">
+            <img src="img/airPlanner.png" alt="">
+            <img src="img/airPlanner.png" alt="">
+            <i class="bi bi-chevron-right"></i>
+        </div>
+
+    <form id="booking-form">
+        <label for="from">Origem:</label><br>
+        <select id="from" name="from" required>
+            <option value="">Selecione a origem</option>
+            <!-- América Central -->
+            <optgroup label="América Central">
+                <option value="Aeroporto Internacional Juan Santamaría (SJO), Costa Rica">Aeroporto Internacional Juan Santamaría (SJO), Costa Rica</option>
+                <option value="Aeroporto Internacional de Tocumen (PTY), Panamá">Aeroporto Internacional de Tocumen (PTY), Panamá</option>
+                <option value="Aeroporto Internacional de Toncontín (TGU), Honduras">Aeroporto Internacional de Toncontín (TGU), Honduras</option>
+                <option value="Aeroporto Internacional de Augusto C. Sandino (MGA), Nicarágua">Aeroporto Internacional de Augusto C. Sandino (MGA), Nicarágua</option>
+                <option value="Aeroporto Internacional La Aurora (GUA), Guatemala">Aeroporto Internacional La Aurora (GUA), Guatemala</option>
+                <option value="Aeroporto Internacional de Philip S. W. Goldson (BZE), Belize">Aeroporto Internacional de Philip S. W. Goldson (BZE), Belize</option>
+                <option value="Aeroporto Internacional de El Salvador (SAL), El Salvador">Aeroporto Internacional de El Salvador (SAL), El Salvador</option>
+                <option value="Aeroporto Internacional Daniel Oduber Quirós (LIR), Costa Rica">Aeroporto Internacional Daniel Oduber Quirós (LIR), Costa Rica</option>
+                <option value="Aeroporto Internacional de Belize City (TZA), Belize">Aeroporto Internacional de Belize City (TZA), Belize</option>
+                <option value="Aeroporto Internacional de Ramón Villeda Morales (SAP), Honduras">Aeroporto Internacional de Ramón Villeda Morales (SAP), Honduras</option>
+                <option value="Aeroporto Internacional de Manágua (MGA), Nicarágua">Aeroporto Internacional de Manágua (MGA), Nicarágua</option>
+                <option value="Aeroporto Internacional de Roatán (RTB), Honduras">Aeroporto Internacional de Roatán (RTB), Honduras</option>
+                <option value="Aeroporto Internacional La Mesa (SAP), Honduras">Aeroporto Internacional La Mesa (SAP), Honduras</option>
+                <option value="Aeroporto Internacional de Quetzaltenango (GUA), Guatemala">Aeroporto Internacional de Quetzaltenango (GUA), Guatemala</option>
+                <option value="Aeroporto Internacional de Mundo Maya (FRS), Guatemala">Aeroporto Internacional de Mundo Maya (FRS), Guatemala</option>
+                <option value="Aeroporto Internacional de Cidade da Guatemala (GUA), Guatemala">Aeroporto Internacional de Cidade da Guatemala (GUA), Guatemala</option>
+                <option value="Aeroporto Internacional Ramón Villeda Morales (SAP), Honduras">Aeroporto Internacional Ramón Villeda Morales (SAP), Honduras</option>
+                <option value="Aeroporto Internacional La Romana (LRM), República Dominicana">Aeroporto Internacional La Romana (LRM), República Dominicana</option>
+                <option value="Aeroporto Internacional de Punta Cana (PUJ), República Dominicana">Aeroporto Internacional de Punta Cana (PUJ), República Dominicana</option>
+                <option value="Aeroporto Internacional Gregorio Luperón (POP), República Dominicana">Aeroporto Internacional Gregorio Luperón (POP), República Dominicana</option>
+                <option value="Aeroporto Internacional de Cibao (STI), República Dominicana">Aeroporto Internacional de Cibao (STI), República Dominicana</option>
+                <option value="Aeroporto Internacional de Cap-Haïtien (CAP), Haiti">Aeroporto Internacional de Cap-Haïtien (CAP), Haiti</option>
+                <option value="Aeroporto Internacional Jean-Pierre (PAP), Haiti">Aeroporto Internacional Jean-Pierre (PAP), Haiti</option>
+            </optgroup>
+            
+        
+            <!-- América do Norte -->
+            <optgroup label="América do Norte">
+                <option value="Aeroporto Internacional de Los Angeles (LAX), Estados Unidos">Aeroporto Internacional de Los Angeles (LAX), Estados Unidos</option>
+                <option value="Aeroporto Internacional John F. Kennedy (JFK), Estados Unidos">Aeroporto Internacional John F. Kennedy (JFK), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Toronto Pearson (YYZ), Canadá">Aeroporto Internacional de Toronto Pearson (YYZ), Canadá</option>
+                <option value="Aeroporto Internacional de Vancouver (YVR), Canadá">Aeroporto Internacional de Vancouver (YVR), Canadá</option>
+                <option value="Aeroporto Internacional de Montreal-Pierre Elliott Trudeau (YUL), Canadá">Aeroporto Internacional de Montreal-Pierre Elliott Trudeau (YUL), Canadá</option>
+                <option value="Aeroporto Internacional de Chicago O'Hare (ORD), Estados Unidos">Aeroporto Internacional de Chicago O'Hare (ORD), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Dallas/Fort Worth (DFW), Estados Unidos">Aeroporto Internacional de Dallas/Fort Worth (DFW), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Atlanta (ATL), Estados Unidos">Aeroporto Internacional de Atlanta (ATL), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Newark Liberty (EWR), Estados Unidos">Aeroporto Internacional de Newark Liberty (EWR), Estados Unidos</option>
+                <option value="Aeroporto Internacional de San Francisco (SFO), Estados Unidos">Aeroporto Internacional de San Francisco (SFO), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Seattle-Tacoma (SEA), Estados Unidos">Aeroporto Internacional de Seattle-Tacoma (SEA), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Washington Dulles (IAD), Estados Unidos">Aeroporto Internacional de Washington Dulles (IAD), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Orlando (MCO), Estados Unidos">Aeroporto Internacional de Orlando (MCO), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Boston Logan (BOS), Estados Unidos">Aeroporto Internacional de Boston Logan (BOS), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Las Vegas McCarran (LAS), Estados Unidos">Aeroporto Internacional de Las Vegas McCarran (LAS), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Miami (MIA), Estados Unidos">Aeroporto Internacional de Miami (MIA), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Houston George Bush (IAH), Estados Unidos">Aeroporto Internacional de Houston George Bush (IAH), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Calgary (YYC), Canadá">Aeroporto Internacional de Calgary (YYC), Canadá</option>
+                <option value="Aeroporto Internacional de Minneapolis-Saint Paul (MSP), Estados Unidos">Aeroporto Internacional de Minneapolis-Saint Paul (MSP), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Detroit Metro (DTW), Estados Unidos">Aeroporto Internacional de Detroit Metro (DTW), Estados Unidos</option>
+                <option value="Aeroporto Internacional de Phoenix Sky Harbor (PHX), Estados Unidos">Aeroporto Internacional de Phoenix Sky Harbor (PHX), Estados Unidos</option>
+            </optgroup>
+            
+        
+            <!-- América do Sul -->
+            <optgroup label="América do Sul">
+                <option value="Aeroporto de Presidente Prudente (PPB)">Aeroporto de Presidente Prudente (PPB)</option>
+                <option value="Aeroporto Internacional de Guarulhos (GRU), Brasil">Aeroporto Internacional de Guarulhos (GRU), Brasil</option>
+                <option value="Aeroporto Internacional de Congonhas (CGH), Brasil">Aeroporto Internacional de Congonhas (CGH), Brasil</option>
+                <option value="Aeroporto Internacional de Brasília (BSB), Brasil">Aeroporto Internacional de Brasília (BSB), Brasil</option>
+                <option value="Aeroporto Internacional El Dorado (BOG), Colômbia">Aeroporto Internacional El Dorado (BOG), Colômbia</option>
+                <option value="Aeroporto Internacional Ministro Pistarini (EZE), Argentina">Aeroporto Internacional Ministro Pistarini (EZE), Argentina</option>
+                <option value="Aeroporto Internacional Jorge Chávez (LIM), Peru">Aeroporto Internacional Jorge Chávez (LIM), Peru</option>
+                <option value="Aeroporto Internacional Comodoro Arturo Merino Benítez (SCL), Chile">Aeroporto Internacional Comodoro Arturo Merino Benítez (SCL), Chile</option>
+                <option value="Aeroporto Internacional Mariscal Sucre (UIO), Equador">Aeroporto Internacional Mariscal Sucre (UIO), Equador</option>
+                <option value="Aeroporto Internacional Silvio Pettirossi (ASU), Paraguai">Aeroporto Internacional Silvio Pettirossi (ASU), Paraguai</option>
+                <option value="Aeroporto Internacional de Carrasco (MVD), Uruguai">Aeroporto Internacional de Carrasco (MVD), Uruguai</option>
+                <option value="Aeroporto Internacional Alfonso Bonilla Aragón (CLO), Colômbia">Aeroporto Internacional Alfonso Bonilla Aragón (CLO), Colômbia</option>
+                <option value="Aeroporto Internacional de Viracopos (VCP), Brasil">Aeroporto Internacional de Viracopos (VCP), Brasil</option>
+                <option value="Aeroporto Internacional de Santiago Pérez Quiroz (ARI), Colômbia">Aeroporto Internacional de Santiago Pérez Quiroz (ARI), Colômbia</option>
+                <option value="Aeroporto Internacional José Joaquín de Olmedo (GYE), Equador">Aeroporto Internacional José Joaquín de Olmedo (GYE), Equador</option>
+                <option value="Aeroporto Internacional de Carrasco (STI), Uruguai">Aeroporto Internacional de Carrasco (STI), Uruguai</option>
+            </optgroup>
+        </select><br>
+
+        <label for="to">Destino:</label><br>
+        <input type="text" id="to" name="to" placeholder="Selecione seu destino" required><br>
+
+        <label for="departure-date">Data de Partida:</label><br>
+        <input type="date" id="departure-date" name="departure-date" required><br>
+        
+        <label for="return-date">Data de Retorno:</label><br>
+        <input type="date" id="return-date" name="return-date" required><br>
+
+        <label for="seat-selection">Seleção de Assento:</label><br>
+        <select id="seat-selection" name="seat-selection">
+            <option value="">Selecione seu assento</option>
+            <optgroup label="Class A"></optgroup>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+            <option value="A1">A3</option>
+            <option value="A2">A4</option>
+            <option value="A2">A5</option>
+            <option value="A2">A6</option>
+            <option value="A2">A7</option>
+            <option value="A2">A8</option>
+            <option value="A2">A9</option>
+            <option value="A2">A10</option>
+            <optgroup label="Class B"></optgroup>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="B3">B3</option>
+            <option value="B4">B4</option>
+            <option value="B5">B5</option>
+            <option value="B6">B6</option>
+            <option value="B7">B7</option>
+            <option value="B8">B8</option>
+            <option value="B9">B9</option>
+            <option value="B10">B10</option>
+            <option value="B11">B10</option>
+            <option value="B12">B10</option>
+            <option value="B13">B10</option>
+            <option value="B14">B10</option>
+            <option value="B15">B10</option>
+            <optgroup label="Class C"></optgroup>
+            <option value="C1">C1</option>
+            <option value="C2">C2</option>
+            <option value="C3">C3</option>
+            <option value="C4">C4</option>
+            <option value="C5">C5</option>
+            <option value="C6">C6</option>
+            <option value="C7">C7</option>
+            <option value="C8">C8</option>
+            <option value="C8">C9</option>
+            <option value="C10">C10</option>
+            <option value="C11">C11</option>
+            <option value="C12">C12</option>
+            <option value="C13">C13</option>
+            <option value="C14">C14</option>
+            <option value="C15">C15</option>
+            <option value="C15">C16</option>
+            <option value="C15">C17</option>
+            <option value="C15">C18</option>
+            <option value="C15">C19</option>
+            <option value="C15">C20</option>
+            <option value="C15">C21</option>
+            <option value="C15">C22</option>
+            <option value="C15">C23</option>
+            <option value="C15">C24</option>
+            <option value="C15">C25</option>
+        </select><br>
+
+        <button type="submit" id="botaoBuscar">Adicionar ao Carrinho</button>
+    </form>
+
+    <div id="map" style="width: 100%; height: 400px;"></div>    
+    </section>
+    
+    <footer class="footerCheckin">    
+        <div class="foHelp">
+          <div class="fac">
+            <p>DÚVIDAS</p>
+            <a href="">Perguntas Frequentes</a>
+            <a href="">Formas de Pagamentos</a>
+            <a href="">Troca e Devoluções</a>
+            <a href="">Mapa do Site</a>
+          </div>
+          <div class="fac">
+            <p>LINKS ÚTEIS</p>
+            <a href="cookies.html">Política de Privacidade</a>
+            <a href="">Proteja-se Contra Fraudes</a>
+            <a href="cookies.html">Termos de Uso</a>
+            <a href="">Regulamentos de Compra</a>
+            <a href="">Alerta sobre Segurança</a>
+            <a href="">Código de Desefa do Consumidor</a>
+            <a href="">Preferência de Cookies</a>
+          </div>
+          <div class="fac">
+            <p>INSTITUIÇÃO</p>
+            <a href="sobre.html">Nossa História</a>
+            <a href="">Grupo InterMiles</a>
+            <a href="">Trabalhe Conosco</a> 
+            <a href="">Impresarial Juridico</a>
+            <a href="">Cashback</a>
+            <a href="">Seja um Filiado Nosso</a>
+            <a href="">Blog</a>
+          </div>
+          <div class="fac">
+            <p>SERVIÇO AO CLIENTE</p>
+            <button class="atd">Atendimento</button>
+            <a href="" class="second">Central de Reclamações</a>
+            <a href="">Compre pelo Whatsapp</a>
+          </div>
+          <div class="fic">
+            <p>SE ATUALIZE DE NOSSAS OFERTAS E NOVIDADES</p>
+            <form action="#">
+              <input type="text" placeholder="digite seu e-mail">
+              <input type="text" placeholder="nome">
+              <button class="atd">Cadastrar</button>
+            </form>
+            <div class="sub" id="sub02">
+              <b class="preto">Siga nossas redes sociais</b>
+              <div class="mae">
+                <div class="filho">
+                  <a href="https://www.instagram.com/">
+                    <img src="img/instagram.svg" alt="">
+                  </a>
+                </div>
+                <div class="filho">
+                  <a href="https://pt-br.facebook.com/">
+                    <img src="img/facebook.svg" alt="">
+                  </a>
+              </div>
+                <div class="filho">
+                  <a href="https://github.com/">
+                    <img src="img/github.svg" alt="">
+                  </a>
+                </div>
+                <div class="filho">
+                  <a href="https://twitter.com/home">
+                    <img src="img/twitter-x.svg" alt="">
+                  </a>
+                </div>
+              </div>
+              </div>
+          </div>
+          
+          </div>
+        </div>
+    </footer>
+
+    <script>
+async function fetchReservasAndUpdate() {
+    try {
+        const response = await fetch('http://localhost:3000/ObterReserva');
+        const reservas = await response.json();
+
+        // Armazenar as reservas no armazenamento local do navegador
+        localStorage.setItem('reservas', JSON.stringify(reservas));
+
+        const reservasContainer = document.getElementById('reservasContainer');
+        reservasContainer.innerHTML = ''; // Limpa o contêiner antes de adicionar novas reservas
+
+        reservas.forEach(reserva => {
+            const reservaDiv = document.createElement('div');
+            reservaDiv.classList.add('reserva');
+
+            const origemDiv = document.createElement('div');
+            origemDiv.innerText = ` ${reserva.origem}`;
+
+            const barra = document.createElement('div');
+            barra.innerHTML = `X`;
+
+            const destinoDiv = document.createElement('div');
+            destinoDiv.innerText = `${reserva.destino}`;
+
+            const assentoDiv = document.createElement('div');
+            assentoDiv.innerText = ` ${reserva.assento}`;
+
+            const dataViagemDiv = document.createElement('div');
+            const dataViagem = new Date(reserva.data_viagem);
+            dataViagemDiv.innerText = ` ${dataViagem.toLocaleDateString('pt-BR')}`;
+
+            const insereIcon = document.createElement('div');
+            insereIcon.innerHTML = `<div id="ticket"><i class="bi bi-tags-fill"></i></div>`;
+
+            reservaDiv.appendChild(insereIcon);
+            reservaDiv.appendChild(origemDiv);
+            reservaDiv.appendChild(barra);
+            reservaDiv.appendChild(destinoDiv);
+            reservaDiv.appendChild(assentoDiv);
+            reservaDiv.appendChild(dataViagemDiv);
+
+            reservasContainer.appendChild(reservaDiv);
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar dados das reservas:', error);
+    }
+}
+
+// Função para carregar as reservas armazenadas no armazenamento local ao carregar a página
+function carregarReservasSalvas() {
+    const reservasSalvas = localStorage.getItem('reservas');
+
+    if (reservasSalvas) {
+        const reservas = JSON.parse(reservasSalvas);
+        const reservasContainer = document.getElementById('reservasContainer');
+
+        reservas.forEach(reserva => {
+            const reservaDiv = document.createElement('div');
+            reservaDiv.classList.add('reserva');
+
+            const origemDiv = document.createElement('div');
+            origemDiv.innerText = ` ${reserva.origem}`;
+
+            const barra = document.createElement('div');
+            barra.innerHTML = `X`;
+
+            const destinoDiv = document.createElement('div');
+            destinoDiv.innerText = `${reserva.destino}`;
+
+            const assentoDiv = document.createElement('div');
+            assentoDiv.innerText = ` ${reserva.assento}`;
+
+            const dataViagemDiv = document.createElement('div');
+            const dataViagem = new Date(reserva.data_viagem);
+            dataViagemDiv.innerText = ` ${dataViagem.toLocaleDateString('pt-BR')}`;
+
+            const insereIcon = document.createElement('div');
+            insereIcon.innerHTML = `<div id="ticket"><i class="bi bi-tags-fill"></i></div>`;
+
+            reservaDiv.appendChild(insereIcon);
+            reservaDiv.appendChild(origemDiv);
+            reservaDiv.appendChild(barra);
+            reservaDiv.appendChild(destinoDiv);
+            reservaDiv.appendChild(assentoDiv);
+            reservaDiv.appendChild(dataViagemDiv);
+
+            reservasContainer.appendChild(reservaDiv);
+        });
+    }
+}
+
+// Função para atualizar o contador do carrinho
+function atualizarCarrinho() {
+    let contador = parseInt(localStorage.getItem('cartCount')) || 0;
+    contador++;
+    localStorage.setItem('cartCount', contador);
+    document.getElementById('cartBadge').innerText = contador;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Adicionar um ouvinte de evento ao formulário de adicionar ao carrinho
+    document.getElementById('booking-form').addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevenir o comportamento padrão do formulário
+        atualizarCarrinho(); // Atualizar o carrinho
+
+        // Após atualizar o carrinho, buscar e atualizar as reservas
+        fetchReservasAndUpdate();
+    });
+
+    // Carregar as reservas salvas ao carregar a página
+    carregarReservasSalvas();
+
+    // Atualizar o contador do carrinho ao carregar a página
+    const cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+    document.getElementById('cartBadge').innerText = cartCount;
+
+    // Adicionar um ouvinte de evento para chamar a função fetchReservasAndUpdate() quando o botão for clicado
+    document.getElementById('botaoBuscar').addEventListener('click', () => {
+        fetchReservasAndUpdate();
+    });
+});
+
+
+
+
+
+
+
+   document.addEventListener("DOMContentLoaded", function () {
+    const map = L.map('map').setView([-3.745, -38.523], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const fromInput = document.getElementById('from');
+    const toInput = document.getElementById('to');
+    const returnDateInput = document.getElementById('return-date');
+
+    fromInput.addEventListener('change', function () {
+        const place = this.value;
+        if (!place) return;
+
+        fetchLocation(place);
+    });
+
+    toInput.addEventListener('change', function () {
+        const place = this.value;
+        if (!place) return;
+
+        fetchLocation(place);
+    });
+
+    const bookingForm = document.getElementById('booking-form');
+
+    bookingForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const from = fromInput.value; 
+        const to = toInput.value;
+        const departureDate = document.getElementById('departure-date').value;
+        const returnDate = returnDateInput.value; // Corrigido aqui
+        const seatSelection = document.getElementById('seat-selection').value;
+
+        document.getElementById('from').value = '';
+        document.getElementById('to').value = '';
+        document.getElementById('departure-date').value = '';
+        document.getElementById('return-date').value = '';
+        document.getElementById('seat-selection').value = '';
+        alert("Reserva realizada com sucesso");
+
+        sendFormDataToServer(from, to, departureDate, returnDate, seatSelection);
+    });
+
+    function fetchLocation(place) {
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${place}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    const latLng = [data[0].lat, data[0].lon];
+                    map.panTo(latLng);
+                    L.marker(latLng).addTo(map).bindPopup(place).openPopup();
+                } else {
+                    console.error('Local não encontrado');
+                }
+            })
+            .catch(error => console.error('Erro ao buscar local:', error));
+    }
+
+    function sendFormDataToServer(from, to, departureDate, returnDate, seatSelection) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:3000/reservar");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Dados do formulário enviados com sucesso para o servidor.");
+            }
+        };
+        const formData = {
+            from: from,
+            to: to,
+            departureDate: departureDate,
+            returnDate: returnDate,
+            seatSelection: seatSelection
+        };
+        xhr.send(JSON.stringify(formData));
+    }
+});  
+
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Impede o envio do formulário
+
+    const email = document.getElementById('loginEmail').value; // Obtém o email do campo de login
+
+    // Faz uma solicitação GET para a rota de obter dados, passando o email do usuário
+    fetch(`http://localhost:3000/obterDados?email=${email}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso && data.usuario) { // Verifica se data.sucesso é verdadeiro e se data.usuario está definido
+                // Se os dados foram obtidos com sucesso e o usuário está definido, exibe-os na página
+                document.getElementById('nomeBord').textContent = data.usuario.nome;
+                document.getElementById('emailBord').textContent = data.usuario.email;
+                document.getElementById('telefoneBord').textContent = data.usuario.telefone;
+                document.getElementById('cpfBord').textContent = data.usuario.cpf;
+                document.getElementById('senhaBord').textContent = data.usuario.senha;
+
+                localStorage.setItem('usuario', JSON.stringify(data.usuario));
+            } else {
+                // Se não foi possível encontrar o usuário ou se não há dados de usuário definidos, exibe uma mensagem de erro
+                console.error('Erro ao obter dados do usuário:', data.mensagem);
+                alert('Erro ao obter dados do usuário');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar dados do usuário:', error);
+            alert('Erro ao carregar dados do usuário');
+        });
+});
+
+
+
+function carregarDadosDoLocalStorage() {
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+            if (usuario) {
+                document.getElementById('nomeBord').textContent = usuario.nome;
+                document.getElementById('emailBord').textContent = usuario.email;
+                document.getElementById('telefoneBord').textContent = usuario.telefone;
+                document.getElementById('cpfBord').textContent = usuario.cpf;
+                document.getElementById('senhaBord').textContent = usuario.senha;
+            }
+        }
+
+        // Chama a função para carregar os dados do localStorage quando a página for carregada
+        document.addEventListener('DOMContentLoaded', carregarDadosDoLocalStorage);
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+   // Verifica se há dados de login armazenados
+   const usuarioLogado = localStorage.getItem('usuarioLogado');
+
+   // Se o usuário estiver logado, exibe o nome na div 'nomeUsuarioDiv'
+   if (usuarioLogado) {
+       const nomeUsuarioDiv = document.getElementById('nomeUsuarioDiv');
+       nomeUsuarioDiv.innerHTML = usuarioLogado;
+       nomeUsuarioDiv.style.display = 'block';
+
+       // Esconde o botão 'biri'
+       const biriButton = document.getElementById('biri');
+       biriButton.style.display = 'none';
+   }
+});
+
+document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+   event.preventDefault(); // Impede o envio padrão do formulário
+
+   const email = document.getElementById('cadastroEmail').value;
+   const senha = document.getElementById('cadastroSenha').value;
+   const nome = document.getElementById('cadastroNome').value;
+   const cpf = document.getElementById('cadastroCPF').value;
+   const telefone = document.getElementById('cadastroTelefone').value;
+
+   // Envia os dados para o servidor usando fetch
+   fetch('http://localhost:3000/cadastrar', {
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({ email, senha, nome, cpf, telefone })
+   })
+   .then(response => response.json())
+   .then(data => {
+       document.getElementById('cadastroSenha').value = "";
+       document.getElementById('cadastroNome').value = "";
+       document.getElementById('cadastroCPF').value = "";
+       document.getElementById('cadastroTelefone').value = "";
+       document.getElementById('cadastroEmail').value = "";
+       alert("Usuário cadastrado com sucesso");
+   })
+   .catch(error =>  {
+       console.error('Erro:', error);
+       alert("Erro ao cadastrar usuário");
+   });
+});
+ 
+
+// Função para realizar login
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+   event.preventDefault(); // Impede o envio padrão do formulário
+
+   const email = document.getElementById('loginEmail').value;
+   const senha = document.getElementById('loginSenha').value;
+   
+   const offcanvas = document.querySelector('#offcanvasScrolling');
+   const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvas);
+   offcanvasInstance.hide();
+
+   // Envia os dados para o servidor usando fetch
+   fetch('http://localhost:3000/login', {
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({ email, senha })
+   })
+   .then(response => response.json())
+   .then(data => {
+       if (data.sucesso) {
+           // Obtém o nome do usuário
+           fetch(`http://localhost:3000/obterUsuario?email=${email}`)
+           .then(response => response.json())
+           .then(data => {
+               if (data.sucesso) {
+                   // Exibe o nome do usuário na div 'nomeUsuarioDiv'
+                   const nomeUsuarioDiv = document.getElementById('nomeUsuarioDiv');
+                   const vazaDiv = document.getElementById('biri');
+
+                   document.getElementById('loginEmail').value = '';
+                   document.getElementById('loginSenha').value = '';
+
+                   // Extrai o primeiro nome
+                   const primeiroNome = data.nome.split(' ')[0];
+
+                   nomeUsuarioDiv.innerHTML = `Olá ${primeiroNome} <i class="bi bi-person-circle"></i> `;
+                   nomeUsuarioDiv.style.display = 'block';
+
+                   // Armazena o nome do usuário no localStorage
+                   localStorage.setItem('usuarioLogado', nomeUsuarioDiv.innerHTML);
+                   vazaDiv.style.display = 'none';
+               } else {
+                   console.error('Erro ao obter o nome do usuário:', data.mensagem);
+               }
+           })
+           .catch(error => {
+               console.error('Erro ao realizar a requisição para obter o nome do usuário:', error);
+           });
+           
+       } else {
+           console.error('Erro no login:', data.mensagem);
+           alert("Erro ao efetuar login");
+       }
+   })
+   .catch(error => {
+       console.error('Erro ao realizar a requisição:', error);
+   });
+});
+    </script>
+</body>
+</html>

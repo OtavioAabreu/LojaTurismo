@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>País</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="logica.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="name">
+               <img id="face" src="img/Hawai.png" alt="">
+               <a href="ind.html">InterMiles</a>
+                <img id="flower" src="img/flor.png" alt=""> 
+        </div>
+        <div class="head-bar">
+            <a href="chekin.html">Chekin</a>
+            
+            <button type="button" id="biri" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+              Entre
+              <i class="bi bi-person-circle"></i>
+            </button>
+            <button id="nomeUsuarioDiv"style="display: none;" type="button" id="biri" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScroll" aria-controls="offcanvasScroll"></button>
+            
+            <button class="carrinho" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                Pacotes
+                <i class="bi bi-cart-fill"></i>
+            </button>
+            <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+                <span class="visually-hidden">produtos no carrinho</span>
+              </span>
+        </div>
+    </header>
+    
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+          <p id="cad" style="display: none;">Cadastro</p>
+          <p id="log">Login</p>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <form id="loginForm">
+            <input type="email" id="loginEmail" required placeholder="Email" autocomplete="off"><br>
+            <input type="password" id="loginSenha" required placeholder="Senha"><br>
+        <button type="submit">Login</button>
+        <p>Ainda não possui cadastro?</p>
+        <a href="" onclick="event.preventDefault(); view()">Cadastrar</a>
+    </form>
+        <form id="cadastroForm" style="display: none;">
+                <input type="nome" id="cadastroNome" required placeholder="Nome" autocomplete="off"><br>
+                <input type="cpf" id="cadastroCPF" required placeholder="CPF" autocomplete="off"><br>
+                <input type="tel" id="cadastroTelefone" required Idade placeholder="Telefone" autocomplete="off"><br>
+                <input type="email" id="cadastroEmail" required placeholder="Email" autocomplete="off"><br>
+                <input type="password" id="cadastroSenha" required placeholder="Senha"><br>
+            <button type="submit">Cadastrar</button>
+            <br>
+            <a href="" onclick="event.preventDefault(); Review()" class="returna">Voltar</a>
+        </form>
+        </div>
+        <div class="offcanvas-final">
+          <p id="ola" style="display: none;">Torne-se um Cliente</p>
+          <p id="vindo">Bem vindo(a) de Volta</p>
+        </div>
+    </div>
+    
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScroll" aria-labelledby="offcanvasScrollingLabel">
+      <div class="offcanvas-header">
+          <p id="cad">Meu perfil</p>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body" id="bodyCanva">
+          <figure>
+              <img src="img/person.png" alt="">
+          </figure>
+          <div class="dados">
+              <div class="mae1">
+                  <label for="nome">Nome:</label>
+                  <div class="espaco">
+                      <p id="nomeBord"></p>
+                  </div>
+    
+                  <label for="email">Email:</label>
+                  <div class="espaco">
+                      <p id="emailBord"></p>
+                  </div>
+    
+                  <label for="telefone">Telefone:</label>
+                  <div class="espaco">
+                      <p id="telefoneBord"></p>
+                  </div>
+              </div>
+              <div class="mae2">
+                  <label for="cpf">CPF:</label>
+                  <div class="espaco">
+                      <p id="cpfBord"></p>
+                  </div>
+    
+                  <label for="senha">Senha:</label>
+                  <div class="espaco">
+                      <p id="senhaBord" type="password"></p> 
+                  </div>
+              </div>
+          </div>
+      </div>
+      <a href="" onclick="sair()" id="saiAgr">Finalizar Sessão</a>
+      <div class="offcanvas-final"></div>
+    </div>
+    </div> 
+
+    <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+        <div class="offcanvas-header">
+            <p id="cad">Minhas Compras</p>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div id="front">
+            <div id="reservasContainer"></div>
+          </div>
+        </div>
+        <div class="limpa">
+            <a href="#" class="item" onclick="limpa()">
+                Lipar Carrinho
+                <i class="bi bi-trash3-fill"></i>
+            </a>
+          </div>
+        <div class="offcanvas-final">
+            <a href="chekin.html">Adcionar produtos ao carrinho</a>
+          </div>
+      </div>
+    
+    <button onclick="btnVoltar()" class="voltapag">
+        <strong>
+            <i class="bi bi-arrow-left">   Voltar</i>
+        </strong>
+    </button>
+
+    <div class="container5">
+        <div id="countryInfo">
+            <h2 id="countryName"></h2>
+            <p><strong>Nome Oficial: <br></strong> <span id="officialName"></span></p>
+            <p><strong>Moeda: <br></strong> <span id="currency"></span></p>
+            <p><strong>Capital: <br></strong> <span id="capital"></span></p>
+            <p><strong>Região: <br></strong> <span id="region"></span></p>
+            <p><strong>Sub-regiões: <br></strong> <span id="subregion"></span></p>
+            <p><strong>Lingua(s): <br></strong> <span id="languages"></span></p>
+            <p><strong>Área: <br></strong> <span id="area"></span> km²</p>
+            <p><strong>População: <br></strong> <span id="population"></span> Hab</p>
+            <p><strong>Continente: <br></strong> <span id="continent"></span></p>
+            <div>
+                <img id="flagSvg" alt="Country flag">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" id="carouselInner">
+            
+        </div>
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        </div>
+    </div>
+    
+    
+    <footer>    
+        <div class="foHelp">
+          <div class="fac">
+            <p>DÚVIDAS</p>
+            <a href="">Perguntas Frequentes</a>
+            <a href="">Formas de Pagamentos</a>
+            <a href="">Troca e Devoluções</a>
+            <a href="">Mapa do Site</a>
+          </div>
+          <div class="fac">
+            <p>LINKS ÚTEIS</p>
+            <a href="cookies.html">Política de Privacidade</a>
+            <a href="">Proteja-se Contra Fraudes</a>
+            <a href="cookies.html">Termos de Uso</a>
+            <a href="">Regulamentos de Compra</a>
+            <a href="">Alerta sobre Segurança</a>
+            <a href="">Código de Desefa do Consumidor</a>
+            <a href="">Preferência de Cookies</a>
+          </div>
+          <div class="fac">
+            <p>INSTITUIÇÃO</p>
+            <a href="sobre.html">Nossa História</a>
+            <a href="">Grupo InterMiles</a>
+            <a href="">Trabalhe Conosco</a> 
+            <a href="">Impresarial Juridico</a>
+            <a href="">Cashback</a>
+            <a href="">Seja um Filiado Nosso</a>
+            <a href="">Blog</a>
+          </div>
+          <div class="fac">
+            <p>SERVIÇO AO CLIENTE</p>
+            <button class="atd">Atendimento</button>
+            <a href="" class="second">Central de Reclamações</a>
+            <a href="">Compre pelo Whatsapp</a>
+          </div>
+          <div class="fic">
+            <p>SE ATUALIZE DE NOSSAS OFERTAS E NOVIDADES</p>
+            <form action="#">
+              <input type="text" placeholder="digite seu e-mail">
+              <input type="text" placeholder="nome">
+              <button class="atd">Cadastrar</button>
+            </form>
+            <div class="sub" id="sub02">
+              <b class="preto">Siga nossas redes sociais</b>
+              <div class="mae">
+                <div class="filho">
+                  <a href="https://www.instagram.com/">
+                    <img src="img/instagram.svg" alt="">
+                  </a>
+                </div>
+                <div class="filho">
+                  <a href="https://pt-br.facebook.com/">
+                    <img src="img/facebook.svg" alt="">
+                  </a>
+              </div>
+                <div class="filho">
+                  <a href="https://github.com/">
+                    <img src="img/github.svg" alt="">
+                  </a>
+                </div>
+                <div class="filho">
+                  <a href="https://twitter.com/home">
+                    <img src="img/twitter-x.svg" alt="">
+                  </a>
+                </div>
+              </div>
+              </div>
+          </div>
+          
+          </div>
+        </div>
+    </footer>
+
+    <script>
+
+        
+async function fetchReservasAndUpdate() {
+            try {
+                const response = await fetch('http://localhost:3000/ObterReserva');
+                const reservas = await response.json();
+
+                // Armazenar as reservas no armazenamento local do navegador
+                localStorage.setItem('reservas', JSON.stringify(reservas));
+
+                const reservasContainer = document.getElementById('reservasContainer');
+                reservasContainer.innerHTML = ''; // Limpa o contêiner antes de adicionar novas reservas
+
+                reservas.forEach(reserva => {
+                    const reservaDiv = document.createElement('div');
+                    reservaDiv.classList.add('reserva');
+
+                    const origemDiv = document.createElement('div');
+                    origemDiv.innerText = ` ${reserva.origem}`;
+
+                    const barra = document.createElement('div');
+                    barra.innerHTML = `X`;
+
+                    const destinoDiv = document.createElement('div');
+                    destinoDiv.innerText = `${reserva.destino}`;
+
+                    const assentoDiv = document.createElement('div');
+                    assentoDiv.innerText = ` ${reserva.assento}`;
+
+                    const dataViagemDiv = document.createElement('div');
+                    const dataViagem = new Date(reserva.data_viagem);
+                    dataViagemDiv.innerText = ` ${dataViagem.toLocaleDateString('pt-BR')}`;
+
+                    const insereIcon = document.createElement('div');
+                    insereIcon.innerHTML = `<div id="ticket"><i class="bi bi-tags-fill"></i></div>`;
+
+                    reservaDiv.appendChild(insereIcon);
+                    reservaDiv.appendChild(origemDiv);
+                    reservaDiv.appendChild(barra);
+                    reservaDiv.appendChild(destinoDiv);
+                    reservaDiv.appendChild(assentoDiv);
+                    reservaDiv.appendChild(dataViagemDiv);
+
+                    reservasContainer.appendChild(reservaDiv);
+                });
+
+            } catch (error) {
+                console.error('Erro ao buscar dados das reservas:', error);
+            }
+        }
+
+        // Função para carregar as reservas armazenadas no armazenamento local ao carregar a página
+        function carregarReservasSalvas() {
+            const reservasSalvas = localStorage.getItem('reservas');
+
+            if (reservasSalvas) {
+                const reservas = JSON.parse(reservasSalvas);
+                const reservasContainer = document.getElementById('reservasContainer');
+
+                reservas.forEach(reserva => {
+                    const reservaDiv = document.createElement('div');
+                    reservaDiv.classList.add('reserva');
+
+                    const origemDiv = document.createElement('div');
+                    origemDiv.innerText = ` ${reserva.origem}`;
+
+                    const barra = document.createElement('div');
+                    barra.innerHTML = `X`;
+
+                    const destinoDiv = document.createElement('div');
+                    destinoDiv.innerText = `${reserva.destino}`;
+
+                    const assentoDiv = document.createElement('div');
+                    assentoDiv.innerText = ` ${reserva.assento}`;
+
+                    const dataViagemDiv = document.createElement('div');
+                    const dataViagem = new Date(reserva.data_viagem);
+                    dataViagemDiv.innerText = ` ${dataViagem.toLocaleDateString('pt-BR')}`;
+
+                    const insereIcon = document.createElement('div');
+                    insereIcon.innerHTML = `<div id="ticket"><i class="bi bi-tags-fill"></i></div>`;
+
+                    reservaDiv.appendChild(insereIcon);
+                    reservaDiv.appendChild(origemDiv);
+                    reservaDiv.appendChild(barra);
+                    reservaDiv.appendChild(destinoDiv);
+                    reservaDiv.appendChild(assentoDiv);
+                    reservaDiv.appendChild(dataViagemDiv);
+
+                    reservasContainer.appendChild(reservaDiv);
+                });
+            }
+        }
+
+        // Função para atualizar o contador do carrinho
+        function atualizarCarrinho() {
+            let contador = parseInt(localStorage.getItem('cartCount')) || 0;
+            contador++;
+            localStorage.setItem('cartCount', contador);
+            document.getElementById('cartBadge').innerText = contador;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carregar as reservas salvas ao carregar a página
+            carregarReservasSalvas();
+
+            // Atualizar o contador do carrinho ao carregar a página
+            const cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+            document.getElementById('cartBadge').innerText = cartCount;
+
+            // Adicionar um ouvinte de evento para chamar a função fetchReservasAndUpdate() quando o botão for clicado
+            document.getElementById('botaoBuscar').addEventListener('click', () => {
+                fetchReservasAndUpdate();
+            });
+
+            // Adicionar um ouvinte de evento ao formulário de adicionar ao carrinho
+            document.getElementById('booking-form').addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevenir o comportamento padrão do formulário
+                atualizarCarrinho(); // Atualizar o carrinho
+            });
+        });
+
+
+        // Função para traduzir os dados do país para o português brasileiro
+        async function translateData(data) {
+            const translatedData = { ...data }; // Copiar os dados originais
+
+            // Traduzir nome oficial e nome comum para o português brasileiro
+            const translationResponse = await fetch(`https://translation.googleapis.com/language/translate/v2?key=YOUR_API_KEY&q=${encodeURIComponent(data.name.official)},${encodeURIComponent(data.name.common)}&target=pt-BR`);
+            const translationData = await translationResponse.json();
+            if (translationData && translationData.data && translationData.data.translations) {
+                translatedData.name.official = translationData.data.translations[0].translatedText.split(',')[0];
+                translatedData.name.common = translationData.data.translations[0].translatedText.split(',')[1];
+            }
+
+            return translatedData;
+        }   
+
+        document.addEventListener("DOMContentLoaded", async () => {
+    const buttonsContainer = document.getElementById("buttonsContainer");
+
+    fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(data => {
+            const americaSulCountries = data.filter(country => country.subregion === "South America");
+
+            for (const country of americaSulCountries) {
+                const button = document.createElement("button");
+                button.textContent = country.name.common;
+                button.id = country.name.common.replace(/\s/g, '');
+                button.addEventListener("click", () => {
+                    window.location.href = `pais.html?country=${encodeURIComponent(country.name.common)}`;
+                });
+                buttonsContainer.appendChild(button);
+            }
+        })
+        .catch(error => console.error("Error fetching country data:", error));
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const params = new URLSearchParams(window.location.search);
+    const countryName = params.get('country');
+
+    fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(async data => {
+            const selectedCountry = data.find(country => country.name.common === countryName);
+            if (selectedCountry) {
+                // Traduzir os dados do país para o português brasileiro
+                const translatedCountry = await translateData(selectedCountry);
+
+                // Exibir os dados traduzidos
+                document.getElementById("countryName").textContent = translatedCountry.name.common;
+                document.getElementById("officialName").textContent = translatedCountry.name.official;
+                document.getElementById("currency").textContent = `${translatedCountry.currencies[Object.keys(translatedCountry.currencies)[0]].name} (${translatedCountry.currencies[Object.keys(translatedCountry.currencies)[0]].symbol})`;
+                document.getElementById("capital").textContent = translatedCountry.capital[0];
+                document.getElementById("region").textContent = translatedCountry.region;
+                document.getElementById("subregion").textContent = translatedCountry.subregion;
+                document.getElementById("languages").textContent = Object.values(translatedCountry.languages).join(", ");
+                document.getElementById("area").textContent = translatedCountry.area;
+                document.getElementById("population").textContent = translatedCountry.population;
+                document.getElementById("continent").textContent = translatedCountry.continents[0];
+                document.getElementById("flagSvg").src = selectedCountry.flags.svg;
+                document.getElementById("flagSvg").alt = `Flag of ${selectedCountry.name.common}`;
+
+                // Carregar e exibir as imagens
+                loadCountryImages(translatedCountry.name.common);
+            } else {
+                console.error("Country not found");
+            }
+        })
+        .catch(error => console.error("Error fetching country data:", error));
+});
+
+// Função para carregar e exibir imagens do país no carrossel
+function loadCountryImages(countryName) {
+    const imageUrls = [
+    `https://source.unsplash.com/featured/?${countryName},landmark`,
+        `https://source.unsplash.com/featured/?${countryName},tourist-attraction`,
+        `https://source.unsplash.com/featured/?${countryName},monument`,
+        `https://source.unsplash.com/featured/?${countryName},historic-site`,
+        `https://source.unsplash.com/featured/?${countryName},famous-place`
+    ];
+
+    const carouselInner = document.querySelector('.carousel-inner');
+    carouselInner.innerHTML = ''; // Limpar itens anteriores do carrossel
+
+    imageUrls.forEach((url, index) => {
+        const div = document.createElement("div");
+        div.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+        
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = `Image of ${countryName}`;
+        img.className = "d-block w-100"; // Classes Bootstrap para imagens responsivas no carrossel
+        
+        div.appendChild(img);
+        carouselInner.appendChild(div);
+    });
+}
+
+// Função fictícia para traduzir dados do país (substitua pelo método de tradução real)
+async function translateData(countryData) {
+    // Este é um exemplo fictício. Implemente a tradução real conforme necessário.
+    return countryData;
+}
+
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Impede o envio do formulário
+  
+      const email = document.getElementById('loginEmail').value; // Obtém o email do campo de login
+  
+      // Faz uma solicitação GET para a rota de obter dados, passando o email do usuário
+      fetch(`http://localhost:3000/obterDados?email=${email}`)
+          .then(response => response.json())
+          .then(data => {
+              if (data.sucesso && data.usuario) { // Verifica se data.sucesso é verdadeiro e se data.usuario está definido
+                  // Se os dados foram obtidos com sucesso e o usuário está definido, exibe-os na página
+                  document.getElementById('nomeBord').textContent = data.usuario.nome;
+                  document.getElementById('emailBord').textContent = data.usuario.email;
+                  document.getElementById('telefoneBord').textContent = data.usuario.telefone;
+                  document.getElementById('cpfBord').textContent = data.usuario.cpf;
+                  document.getElementById('senhaBord').textContent = data.usuario.senha;
+  
+                  localStorage.setItem('usuario', JSON.stringify(data.usuario));
+              } else {
+                  // Se não foi possível encontrar o usuário ou se não há dados de usuário definidos, exibe uma mensagem de erro
+                  console.error('Erro ao obter dados do usuário:', data.mensagem);
+                  alert('Erro ao obter dados do usuário');
+              }
+          })
+          .catch(error => {
+              console.error('Erro ao carregar dados do usuário:', error);
+              alert('Erro ao carregar dados do usuário');
+          });
+  });
+  
+  
+  function carregarDadosDoLocalStorage() {
+              const usuario = JSON.parse(localStorage.getItem('usuario'));
+              if (usuario) {
+                  document.getElementById('nomeBord').textContent = usuario.nome;
+                  document.getElementById('emailBord').textContent = usuario.email;
+                  document.getElementById('telefoneBord').textContent = usuario.telefone;
+                  document.getElementById('cpfBord').textContent = usuario.cpf;
+                  document.getElementById('senhaBord').textContent = usuario.senha;
+              }
+          }
+  
+          // Chama a função para carregar os dados do localStorage quando a página for carregada
+          document.addEventListener('DOMContentLoaded', carregarDadosDoLocalStorage);
+
+          document.addEventListener("DOMContentLoaded", async () => {
+            const buttonsContainer = document.getElementById("buttonsContainer");
+
+            fetch("https://restcountries.com/v3.1/all")
+                .then(response => response.json())
+                .then(data => {
+                    const americaSulCountries = data.filter(country => country.subregion === "South America");
+
+                    for (const country of americaSulCountries) {
+                        const button = document.createElement("button");
+                        button.textContent = country.name.common;
+                        button.id = country.name.common.replace(/\s/g, '');
+                        button.addEventListener("click", () => {
+                            window.location.href = `pais.html?country=${encodeURIComponent(country.name.common)}`;
+                        });
+                        buttonsContainer.appendChild(button);
+                    }
+                })
+                .catch(error => console.error("Error fetching country data:", error));
+        });
+
+        
+
+document.addEventListener('DOMContentLoaded', function() {
+   // Verifica se há dados de login armazenados
+   const usuarioLogado = localStorage.getItem('usuarioLogado');
+
+   // Se o usuário estiver logado, exibe o nome na div 'nomeUsuarioDiv'
+   if (usuarioLogado) {
+       const nomeUsuarioDiv = document.getElementById('nomeUsuarioDiv');
+       nomeUsuarioDiv.innerHTML = usuarioLogado;
+       nomeUsuarioDiv.style.display = 'block';
+
+       // Esconde o botão 'biri'
+       const biriButton = document.getElementById('biri');
+       biriButton.style.display = 'none';
+   }
+});
+
+document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+   event.preventDefault(); // Impede o envio padrão do formulário
+
+   const email = document.getElementById('cadastroEmail').value;
+   const senha = document.getElementById('cadastroSenha').value;
+   const nome = document.getElementById('cadastroNome').value;
+   const cpf = document.getElementById('cadastroCPF').value;
+   const telefone = document.getElementById('cadastroTelefone').value;
+
+   // Envia os dados para o servidor usando fetch
+   fetch('http://localhost:3000/cadastrar', {
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({ email, senha, nome, cpf, telefone })
+   })
+   .then(response => response.json())
+   .then(data => {
+       document.getElementById('cadastroSenha').value = "";
+       document.getElementById('cadastroNome').value = "";
+       document.getElementById('cadastroCPF').value = "";
+       document.getElementById('cadastroTelefone').value = "";
+       document.getElementById('cadastroEmail').value = "";
+       alert("Usuário cadastrado com sucesso");
+   })
+   .catch(error =>  {
+       console.error('Erro:', error);
+       alert("Erro ao cadastrar usuário");
+   });
+});
+ 
+
+// Função para realizar login
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+   event.preventDefault(); // Impede o envio padrão do formulário
+
+   const email = document.getElementById('loginEmail').value;
+   const senha = document.getElementById('loginSenha').value;
+   
+   const offcanvas = document.querySelector('#offcanvasScrolling');
+   const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvas);
+   offcanvasInstance.hide();
+
+   // Envia os dados para o servidor usando fetch
+   fetch('http://localhost:3000/login', {
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({ email, senha })
+   })
+   .then(response => response.json())
+   .then(data => {
+       if (data.sucesso) {
+           // Obtém o nome do usuário
+           fetch(`http://localhost:3000/obterUsuario?email=${email}`)
+           .then(response => response.json())
+           .then(data => {
+               if (data.sucesso) {
+                   // Exibe o nome do usuário na div 'nomeUsuarioDiv'
+                   const nomeUsuarioDiv = document.getElementById('nomeUsuarioDiv');
+                   const vazaDiv = document.getElementById('biri');
+
+                   document.getElementById('loginEmail').value = '';
+                   document.getElementById('loginSenha').value = '';
+
+                   // Extrai o primeiro nome
+                   const primeiroNome = data.nome.split(' ')[0];
+
+                   nomeUsuarioDiv.innerHTML = `Olá ${primeiroNome} <i class="bi bi-person-circle"></i> `;
+                   nomeUsuarioDiv.style.display = 'block';
+
+                   // Armazena o nome do usuário no localStorage
+                   localStorage.setItem('usuarioLogado', nomeUsuarioDiv.innerHTML);
+                   vazaDiv.style.display = 'none';
+               } else {
+                   console.error('Erro ao obter o nome do usuário:', data.mensagem);
+               }
+           })
+           .catch(error => {
+               console.error('Erro ao realizar a requisição para obter o nome do usuário:', error);
+           });
+           
+       } else {
+           console.error('Erro no login:', data.mensagem);
+           alert("Erro ao efetuar login");
+       }
+   })
+   .catch(error => {
+       console.error('Erro ao realizar a requisição:', error);
+   });
+});
+    </script>
+</body>
+</html>
